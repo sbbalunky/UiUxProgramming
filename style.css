@@ -66,3 +66,27 @@ p {
   border: 1px solid #dedede;
   border-radius: 12px;
 }
+
+button {
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 10px;
+  color: #ffffff;
+  background-color: #9656fd;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #683bb1;
+}
+
+button:focus,
+input:focus {
+  outline: 3px solid #b9b5ff;
+  outline-offset: 2px;
+}
+
+button:active {
+  transform: translateY(1px);
+}
