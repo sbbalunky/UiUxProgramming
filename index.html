@@ -4,6 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <title>Game of the best</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -29,31 +34,52 @@
     <section id="about">
       <h2>서비스 소개</h2>
       <h3>아직 경험하지 못한 게임을 접해보는 공간</h3>
-      <p>게임에 대한 정보를 확인해볼 수 있습니다.</p>
+      <ul class="about-list">
+        <li class="about-card">
+          <h3>게임 제목</h3>
+          <p>게임의 제목과 메인 일러스트 소개입니다.</p>
+        </li>
+        <li class="about-card">
+          <h3>한 줄 소개</h3>
+          <p>주인장의 게임 전체에 대한 한 줄의 코멘트입니다.</p>
+        </li>
+        <li class="about-card">
+          <h3>주요 캐릭터</h3>
+          <p>게임 속 큰 비중을 차지하는 등장인물들을 소개합니다.</p>
+        </li>
+        <li class="about-card">
+          <h3>게임 플레이 방식</h3>
+          <p>간단한 게임 진행 방식을 설명해드려요.</p>
+        </li>
+        <li class="about-card">
+          <h3>게임 기본 정보</h3>
+          <p>한 줄 소개보다 더 자세한 게임의 대한 기본적인 설명입니다.</p>
+        </li>
+      </ul>
     </section>
 
     <section id="features">
       <h2>게임 정보</h2>
-      <ul>
-        <li>
+      <ul class="feature-list">
+        <li class="feature-card">
           <h3>게임 제목</h3>
           <p>산나비</p>
           <img src="assets/images/SanabiMain.png" alt="산나비 게임 메인 일러스트">
         </li>
-        <li>
+        <li class="feature-card">
           <h3>한 줄 소개</h3>
           <p>퇴역 군인의 마지막 임무이자 복수기</p>
         </li>
-        <li>
+        <li class="feature-card">
           <h3>주요 캐릭터</h3>
           <p>퇴역 군인, 금마리</p>
         </li>
-        <li>
+        <li class="feature-card">
           <h3>게임 플레이 방식</h3>
           <p>사슬팔을 이용해 빠르고 민첩하게 움직이며 적을 무찌르고, 위협에서 벗어나세요.</p>
           <p>스테이지를 넘길 때마다 새로운 기술을 익히고 화려한 액션을 펼쳐보세요.</p>
         </li>
-        <li>
+        <li class="feature-card">
           <h3>게임 기본 정보</h3>
           <p>기계팔로 무장한 퇴역 군인이 되어 초거대 재벌의 부패한 사유 도시를 오르세요.</p>
           <p>사이버펑크 디스토피아를 배경으로 펼쳐지는 역동적이고 스타일리쉬한 2D 사슬액션 어드벤처 플랫포머 게임, 산나비입니다.</p>
@@ -70,7 +96,7 @@
       </ol>
     </section>
 
-    <section id="subscribe">
+    <section id="subscribe" class="subscribe-card">
       <h2>게임 추천 신청하기</h2>
       <form>
         <label for="email">이메일</label>
@@ -83,9 +109,6 @@
   <footer>
     <samll>2026 게임 추천 서비스</samll>
   </footer>
-
-
-
 
 </body>
 
