@@ -10,10 +10,10 @@ body {
 header,
 main,
 footer {
-  //좁은 화면에서도 사용 가능한 너비에 맞춰줄어듭니다.
+  /*좁은 화면에서도 사용 가능한 너비에 맞춰줄어듭니다.*/
   width: 100%;
 
-  //넓은 화면에서도 콘텐츠는 1100px보다 커지지 않습니다.
+  /*넓은 화면에서도 콘텐츠는 1100px보다 커지지 않습니다.*/
   max-width: 1100px;
   margin: 0 auto;
   padding-left: 24px;
@@ -46,7 +46,7 @@ footer {
 nav {
   display: flex;
 
-  //메뉴가 들어갈 자리가 부족하면 다음줄로 이동
+  /*메뉴가 들어갈 자리가 부족하면 다음줄로 이동*/
   flex-wrap: wrap;
 
   gap: 24px;
@@ -91,7 +91,7 @@ p {
 
   display: flex;
 
-  //카드가 좁게 눌리지 않고 다음 줄로 이동
+  /*카드가 좁게 눌리지 않고 다음 줄로 이동*/
   flex-wrap: wrap;
 
   align-items: stretch;
@@ -99,9 +99,9 @@ p {
 }
 
 .about-card {
-  //늘어나기 1, 줄어들기 1, 기본너비 260px
+  /*늘어나기 1, 줄어들기 1, 기본너비 260px*/
   flex: 1 1 260px;
-  
+
   padding: 20px 24px;
   margin-bottom: 0;
   border: 1px solid #6c5fff;
