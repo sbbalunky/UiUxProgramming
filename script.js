@@ -37,5 +37,4 @@ function handleSubscribe(event) {
   subscribeButton.textContent = "신청완료";
   subscribeButton.disabled = true;
 }
-
 subscribeForm.addEventListener("submit", handleSubscribe);
