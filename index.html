@@ -61,32 +61,112 @@
 
     <section id="features">
       <h2>추천 게임</h2>
-      <ul class="feature-list">
-        <li class="feature-card">
-          <h3>산나비</h3>
-          <img src="assets/images/SanabiMain.png" alt="산나비 게임 메인 일러스트">
-        </li>
-        <li class="feature-card">
-          <h3>한 줄 소개</h3>
-          <p>퇴역 군인의 마지막 임무이자 복수기</p>
-        </li>
-        <li class="feature-card">
-          <h3>주요 캐릭터</h3>
-          <p>퇴역 군인, 금마리</p>
-        </li>
-        <li class="feature-card">
-          <h3>게임 플레이 방식</h3>
-          <p>사슬팔을 이용해 빠르고 민첩하게 움직이며 적을 무찌르고, 위협에서 벗어나세요.</p>
-          <p>스테이지를 넘길 때마다 새로운 기술을 익히고 화려한 액션을 펼쳐보세요.</p>
-        </li>
-        <li class="feature-card">
-          <h3>게임 기본 정보</h3>
-          <p>기계팔로 무장한 퇴역 군인이 되어 초거대 재벌의 부패한 사유 도시를 오르세요.</p>
-          <p>사이버펑크 디스토피아를 배경으로 펼쳐지는 역동적이고 스타일리쉬한 2D 사슬액션 어드벤처 플랫포머 게임, 산나비입니다.</p>
-        </li>
-      </ul>
-    </section>
 
+      <div class="tabs" role="tablist" aria-label="산나비">
+        <button 
+          id="tab-title"
+          class="tab is-active"
+          type="button"
+          role="tab"
+          aria-selected="true"
+          aria-controls="feature-title"
+          data-target="#feature-title">
+          게임 제목
+        </button>
+
+        <button 
+          id="tab-introduction"
+          class="tab"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          aria-controls="feature-introduction"
+          data-target="#feature-introduction">
+          한 줄 소개
+        </button>
+
+        <button 
+          id="tab-character"
+          class="tab"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          aria-controls="feature-character"
+          data-target="#feature-character">
+          주요캐릭터
+        </button>
+
+        <button 
+          id="tab-method"
+          class="tab"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          aria-controls="feature-method"
+          data-target="#feature-method">
+          게임 플레이 방식
+        </button>
+
+        <button 
+          id="tab-information"
+          class="tab"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          aria-controls="feature-information"
+          data-target="#feature-information">
+          게임 기본 정보
+        </button>
+      </div>
+
+      <div
+        id="feature-title"
+        class="panel is-active"
+        role="tabpanel"
+        aria-labelledby="tab-title">
+        <h3>산나비</h3>
+        <img src="assets/images/SanabiMain.png" alt="산나비 게임 메인 일러스트">
+      </div>
+
+      <div
+        id="feature-introduction"
+        class="panel"
+        role="tabpanel"
+        aria-labelledby="tab-introduction"
+        hidden>
+        <p>퇴역 군인의 마지막 임무이자 복수기</p>
+      </div>
+
+      <div
+        id="feature-character"
+        class="panel"
+        role="tabpanel"
+        aria-labelledby="tab-character"
+        hidden>
+        <p>퇴역 군인, 금마리</p>
+      </div>
+
+      <div
+        id="feature-method"
+        class="panel"
+        role="tabpanel"
+        aria-labelledby="tab-method"
+        hidden>
+        <p>사슬팔을 이용해 빠르고 민첩하게 움직이며 적을 무찌르고, 위협에서 벗어나세요.</p>
+        <p>스테이지를 넘길 때마다 새로운 기술을 익히고 화려한 액션을 펼쳐보세요.</p>
+      </div>
+
+      <div
+        id="feature-information"
+        class="panel"
+        role="tabpanel"
+        aria-labelledby="tab-information"
+        hidden> 
+        <p>기계팔로 무장한 퇴역 군인이 되어 초거대 재벌의 부패한 사유 도시를 오르세요.</p>
+        <p>사이버펑크 디스토피아를 배경으로 펼쳐지는 역동적이고 스타일리쉬한 2D 사슬액션 어드벤처 플랫포머 게임, 산나비입니다.</p>
+      </div>
+    </section>
+    
     <section id="steps">
       <h2>게임을 즐기는 방법</h2>
       <ol>
@@ -94,6 +174,46 @@
         <li>산나비 검색 및 구매후 설치</li>
         <li>플레이 버튼 누르기</li>
       </ol>
+    </section>
+
+    <section id="event-practice">
+      <h2>플레이 후기</h2>
+
+      <div class="event-grid">
+        <article class="event-card" id="thumbsCard">
+          <h3>제 추천이 도움이 되었나요?</h3>
+          <button id="thumbsUp" type="button">당연하죠</button>
+        </article>
+        
+        <article class="event-card">
+          <h3>간단 후기</h3>
+          <label for="commet">한마디를 남겨주세요.</label>
+          <input type="text" id="commet" maxlength="15">
+          <p id="commetCount" aria-live="polite">0 / 15</p>
+        </article>
+
+        <article class="event-card">
+          <h3>평가</h3>
+          <label class="agree-row">
+            <input type="checkbox" class="agreeCheck">
+            재밌어요
+          </label>
+          <label class="agree-row">
+            <input type="checkbox" class="agreeCheck">
+            보통이에요
+          </label>
+          <label class="agree-row">
+            <input type="checkbox" class="agreeCheck">
+            재미없었어요
+          </label>
+          <p id="agreeMessage" aria-live="polite">
+            이번 게임은 재밌으셨나요?
+          </p>
+          <button id="recordsButton" type="button" disabled>
+            기록하기
+          </button>
+        </article>
+      </div>
     </section>
 
     <section id="subscribe" class="subscribe-card">
