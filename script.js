@@ -123,3 +123,41 @@ function handleTabClick(event) {
 tabs.forEach(function (tab) {
   tab.addEventListener("click", handleTabClick);
 });
+
+const titleNext = document.querySelector("#title-next");
+const reviewTitle= document.querySelector("#review-title");
+const scoreLabel = document.querySelector("#score-label");
+const finishButton = document.querySelector("#finish-button");
+const titleError = document.querySelector("#title-error");
+const steps = document.querySelectorAll(".step");
+const recordingFlow = document.querySelector("#recording-flow");
+const recordingDialog = document.querySelector("#recording-dialog");
+const recordingCancel = document.querySelector("#recording-cancel");
+const recordingConfirm = document.querySelector("#recording-confirm");
+
+recordingDialog.showModal();
+
+function handleCancleClick() {
+  recordingDialog.close();
+}
+
+recordingConfirm.addEventListener("click", handleCancleClick);
+
+recordingFlow.hidden = false;
+steps.hidden - false;
+
+function handleTitleClick() {
+  const reviewText = reviewTitle.value.trim();
+
+  if (reviewText === "") {
+    titleError.textContent = "후기를 입력해주세요.";
+    return;
+  }
+
+  titleError.textContent = "";
+
+  steps[0].hidden = true;
+  steps[1].hidden = false;
+}
+
+titleNext.addEventListener("click", handleTitleClick);

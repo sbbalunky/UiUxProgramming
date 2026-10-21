@@ -216,6 +216,83 @@
       </div>
     </section>
 
+    <dialog id = "recording-dialog" aria-labelledby="recording-title" aria-describedby="recording-description">
+      <h2 id="recording-title">플레이 후기</h2>
+      <p id="recording-description">더 자세한 후기를 남겨주세요.</p>
+      <div class="dialog-action">
+        <button id="recording-cancel" type="button">괜찮아요</button>
+        <button id="recording-confirm" type="button">좋아요</button>
+      </div>
+    </dialog>
+
+    <section id="recording-flow" class="recording-flow" hidden>
+      <p class="evaluation" aria-label="평가 진행 단계">
+        <span class="evaluation_item">1. 이번 게임은 어떠셨나요?</span>
+        <span class="evaluation_item">2. 당신의 점수를 매겨주세요.</span>
+        <span class="evaluation_item">3. 다른 사람에게 이 게임을 추천하고 싶으신가요?</span>
+        <span class="evaluation_item">4. 기록이 잘 되어있는지 확인해주세요.</span>
+      </p>
+
+      <section class="step" data-step="1" hidden>
+        <h3>이번 게임은 어떠셨나요?</h3>
+        <label for="review-title">후기</label>
+        <input id="review-title" type="text" placeholder="후기를 적어주세요." aria-describedby="title-error">
+        <p id="title-error" class="error-message" aria-live="polite"></p>
+        <button id="title-next" type="button">기록하기</button>
+      </section>
+
+      <section class="step" data-step="2" hidden>
+        <h3>당신의 점수를 매겨주세요.</h3>
+        <p id="score-label">별점</p>
+        <div class="star-rating" role="group" aria-labelledby="score-label">
+        <input type="radio" id="star5" name="scoreboard" value="5">
+        <label for="star5" aria-label="5점">★</label>
+
+        <input type="radio" id="star4" name="scoreboard" value="4">
+        <label for="star4" aria-label="4점">★</label>
+
+        <input type="radio" id="star3" name="scoreboard" value="3">
+        <label for="star3" aria-label="3점">★</label>
+
+        <input type="radio" id="star2" name="scoreboard" value="2">
+        <label for="star2" aria-label="2점">★</label>
+
+        <input type="radio" id="star1" name="scoreboard" value="1">
+        <label for="star1" aria-label="1점">★</label>
+        </div>
+        <p id="score-message" aria-live="polite">
+        별점을 선택해주세요.
+        </p>
+      </section>
+
+      <section class="step" data-step="3" hidden>
+        <h3>다른 사람에게 이 게임을 추천하고 싶으신가요?</h3>
+        <div class="recommend">
+          <button id="recommend-disagree" type="button">비추천해요</button>
+          <button id="recommend-agree" type="button">추천할래요</button>
+        </div>
+      </section>
+
+      <section class="step" data-step="4" hidden>
+        <h3>기록이 잘 되었는지 확인해주세요.</h3>
+  
+        <div class="review-summary">
+          <h4>나의 게임 평가</h4>
+          <div><span>내 후기</span><strong id="summary-review"></strong></div>
+          <div><span>내 별점</span><strong id="summary-scoreboard"></strong></div>
+          <div><span>다른 사람에게 추천</span><strong id="summary-recommend"></strong></div>
+        </div>
+  
+        <div class="step-actions">
+          <button id="summary-prev" type="button">수정하기</button>
+          <button id="finish-button" type="button">기록하기</button>
+        </div>
+      </section>
+    </section>
+
+    
+
+
     <section id="subscribe" class="subscribe-card">
       <h2>게임 추천 신청하기</h2>
       <form id = "subscribe-form">
