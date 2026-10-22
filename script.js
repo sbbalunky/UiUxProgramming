@@ -81,14 +81,36 @@ function handleAgreeChange(event) {
   );
 
   recordsButton.disabled = !agreed;
-
-  agreeMessage.textContent = agreed ? "의견 감사합니다." : "평가를 남겨주세요.";
-  agreeMessage.classList.toggle("is-ready", agreed);
 }
 
 agreeChecks.forEach((checkbox) => {
   checkbox.addEventListener("change", handleAgreeChange);
 });
+
+function handleRecordsClick() {
+  const agreed = Array.from(agreeChecks).some(
+    (checkbox) => checkbox.checked
+  );
+
+  if (!agreed) {
+    agreeMessage.textContent = "평가를 남겨주세요.";
+    return;
+  }
+
+  agreeMessage.textContent = "의견 감사합니다.";
+  agreeMessage.classList.add("is-ready");
+
+  recordsButton.textContent = "기록 완료";
+  recordsButton.classList.add("is-recorded");
+  recordsButton.disabled = true;
+
+  agreeChecks.forEach((checkbox) => {
+    checkbox.disabled = true;
+  });
+}
+
+recordsButton.addEventListener("click", handleRecordsClick);
+
 
 const tabs = document.querySelectorAll(".tab");
 const panel = document.querySelectorAll(".panel");

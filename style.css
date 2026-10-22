@@ -457,6 +457,31 @@ body.thumbs #thumbsUp {
   cursor: pointer;
 }
 
+.event-card .agree-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+  margin-bottom: 8px;
+}
+
+.event-card .agree-row input[type="checkbox"] {
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  margin: 0;
+}
+
+.event-card .agree-row {
+  overflow-wrap: normal;
+  word-break: keep-all;
+}
+
+
 /*웹페이지가 표시되는 가로 폭이 768px 이하일 때만 적용*/
 @media (max-width: 768px) {
 body{
@@ -567,5 +592,15 @@ button{
 
   .recording-flow .step-actions button {
     width: 100%;
+  }
+
+  .event-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .event-card {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
   }
 }
