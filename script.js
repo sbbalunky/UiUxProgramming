@@ -270,3 +270,48 @@ function handleFinishClick() {
 
 summaryPrev.addEventListener("click", handleSummaryPrev);
 finishButton.addEventListener("click", handleFinishClick);
+
+const favoriteButton = document.querySelector("#favorite-button");
+const favoriteList = document.querySelector("#favorite-list");
+
+let isFavorite = localStorage.getItem("favorite-sanabi") === "true";
+
+function updateFavoriteButton() {
+  if (isFavorite) {
+    favoriteButton.setAttribute("aria-pressed", "true");
+    favoriteButton.textContent = "♥ 즐겨찾기 완료"
+  } else {
+    favoriteButton.setAttribute("aria-pressed", "false");
+    favoriteButton.textContent = "♡ 즐겨찾기 추가"
+  }
+  //목록의 기존 내용 비우기
+  favoriteList.innerHTML = "";
+
+  if (isFavorite) {
+    //새로운 목록 항목을 만들기
+    const gameItem = document.createElement("li");
+
+    gameItem.textContent = "산나비";
+    
+    //만든 항목을 목록에 추가
+    favoriteList.appendChild(gameItem);
+
+  } else {
+    const emptyMessage = document.createElement("li");
+
+    emptyMessage.textContent = "즐겨찾기한 게임이 없습니다.";
+    favoriteList.appendChild(emptyMessage);
+  }
+}
+
+function handleFavoriteClick() {
+  isFavorite = !isFavorite;
+
+  localStorage.setItem("favorite-sanabi", isFavorite);
+
+  updateFavoriteButton();
+}
+
+updateFavoriteButton();
+
+favoriteButton.addEventListener("click", handleFavoriteClick);
