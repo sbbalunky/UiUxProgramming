@@ -216,6 +216,10 @@
       </div>
     </section>
 
+    <button id="open-recording" type="button">
+      더 자세한 후기 작성하기
+    </button>
+
     <dialog id = "recording-dialog" aria-labelledby="recording-title" aria-describedby="recording-description">
       <h2 id="recording-title">플레이 후기</h2>
       <p id="recording-description">더 자세한 후기를 남겨주세요.</p>
@@ -235,7 +239,6 @@
 
       <section class="step" data-step="1" hidden>
         <h3>이번 게임은 어떠셨나요?</h3>
-        <label for="review-title">후기</label>
         <input id="review-title" type="text" placeholder="후기를 적어주세요." aria-describedby="title-error">
         <p id="title-error" class="error-message" aria-live="polite"></p>
         <button id="title-next" type="button">기록하기</button>
@@ -263,6 +266,7 @@
         <p id="score-message" aria-live="polite">
         별점을 선택해주세요.
         </p>
+        <button id="score-next" type="button">다음 단계</button>
       </section>
 
       <section class="step" data-step="3" hidden>
@@ -289,8 +293,6 @@
         </div>
       </section>
     </section>
-
-    
 
 
     <section id="subscribe" class="subscribe-card">

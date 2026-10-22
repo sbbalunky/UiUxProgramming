@@ -134,17 +134,33 @@ const recordingFlow = document.querySelector("#recording-flow");
 const recordingDialog = document.querySelector("#recording-dialog");
 const recordingCancel = document.querySelector("#recording-cancel");
 const recordingConfirm = document.querySelector("#recording-confirm");
+const openRecording = document.querySelector("#open-recording");
+const scoreboard = document.querySelectorAll('[name="scoreboard"]');
+const scoreMessage = document.querySelector("#score-message");
+const scoreNext = document.querySelector("#score-next");
+const summaryScoreboard = document.querySelector("#summary-scoreboard");
+const recommendDisagree = document.querySelector("#recommend-disagree");
+const recommendAgree = document.querySelector("#recommend-agree");
+const summaryReview = document.querySelector("#summary-review");
+const summaryRecommend = document.querySelector("#summary-recommend");
+const summaryPrev = document.querySelector("#summary-prev");
 
-recordingDialog.showModal();
+openRecording.addEventListener("click", function () {
+  recordingDialog.showModal();
+});
 
-function handleCancleClick() {
+function handleConfirmClick() {
   recordingDialog.close();
+
+  recordingFlow.hidden = false;
+  steps[0].hidden = false;
 }
 
-recordingConfirm.addEventListener("click", handleCancleClick);
+recordingCancel.addEventListener("click", function () {
+  recordingDialog.close();
+});
 
-recordingFlow.hidden = false;
-steps.hidden - false;
+recordingConfirm.addEventListener("click", handleConfirmClick);
 
 function handleTitleClick() {
   const reviewText = reviewTitle.value.trim();
@@ -161,3 +177,74 @@ function handleTitleClick() {
 }
 
 titleNext.addEventListener("click", handleTitleClick);
+
+scoreboard.forEach((star)=> {
+  star.addEventListener("change", handleScoreChange);
+})
+
+function handleScoreChange(event) {
+  const star = event.currentTarget;
+
+  const summaryScoreboard =
+  document.querySelector("#summary-scoreboard");
+
+  const selectedScore = Array.from(scoreboard)
+  .find((star) => star.checked);
+
+  summaryScoreboard.________ =
+  selectedScore.value + "점";
+
+  if (star.checked) {
+    scoreMessage.textContent = star.value + "점을 선택하셨습니다!";
+  }
+}
+
+function handleScoreNext() {
+  const hasScore = Array.from(scoreboard).some((star)=>star.checked);
+  
+  if (!hasScore) {
+    scoreMessage.textContent = "별점을 선택해주세요.";
+    return;
+  }
+
+  steps[1].hidden = true;
+  steps[2].hidden = false;
+}
+
+scoreNext.addEventListener("click", handleScoreNext);
+
+function handleRecommendClick(event) {
+  let recommendText = "";
+
+  const clickedButton = event.currentTarget;
+
+  if (clickedButton.id === "recommend-agree") {
+    recommendText = "추천할래요";
+  } else {
+    recommendText = "비추천해요";
+  }
+
+  const selectedScore = Array.from(scoreboard).find((star) => star.checked);
+
+  summaryReview.textContent = reviewTitle.value;
+  summaryScoreboard.textContent = selectedScore.value + "점";
+  summaryRecommend.textContent = recommendText;
+
+  steps[2].hidden = true;
+  steps[3].hidden = false;
+}
+
+recommendAgree.addEventListener("click", handleRecommendClick);
+recommendDisagree.addEventListener("click", handleRecommendClick);
+
+function handleSummaryPrev() {
+  steps[3].hidden = true;
+  steps[0].hidden = false;
+}
+
+function handleFinishClick() {
+  alert("게임 평가 기록이 완료되었습니다!");
+}
+
+summaryPrev.addEventListener("click", handleSummaryPrev);
+finishButton.addEventListener("click", handleFinishClick);

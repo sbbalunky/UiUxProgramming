@@ -303,6 +303,11 @@ body.thumbs #thumbsUp {
   display: none;
 }
 
+#open-recording {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
 #recording-dialog{
   width: min(520px, calc(100% - 32px));
   max-width: none;
@@ -339,6 +344,37 @@ body.thumbs #thumbsUp {
   font-weight: 700;
 }
 .recording-flow #review-title.has-error {border-color: #9d243d;}
+
+
+.evaluation {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.evaluation_item {
+  display: block;
+}
+
+#review-title {
+  display: block;
+  width: 100%;
+  min-height: 140px;
+  box-sizing: border-box;
+  padding: 14px;
+  margin-top: 12px;
+  border: 1px solid #b8b8cc;
+  border-radius: 10px;
+  font: inherit;
+  resize: vertical;
+}
+
+#review-title:focus {
+  outline: 2px solid #9654ff;
+  outline-offset: 2px;
+}
+
 
 .star-rating {
   display: inline-flex;
