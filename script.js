@@ -172,7 +172,9 @@ subscribeReviewPrev.addEventListener(
   handleSubscribeReviewPrev
 );
 
-function handleSubscribeConfirm() {
+function handleSubscribeConfirm(event) {
+  event.preventDefault();
+
   if (isSubcribed) {
     return;
   }
@@ -188,7 +190,7 @@ function handleSubscribeConfirm() {
   completionActions.hidden = false;
 }
 
-subscribeConfirm.addEventListener("click", handleSubscribeConfirm);
+subscribeForm.addEventListener("submit", handleSubscribeConfirm);
 completionView.addEventListener("click", handleViewMyRecommendation);
 completionNew.addEventListener("click", handleNewRecommendation);
 
