@@ -173,6 +173,10 @@ subscribeReviewPrev.addEventListener(
 );
 
 function handleSubscribeConfirm() {
+  if (isSubcribed) {
+    return;
+  }
+
   subscribeSteps[2].hidden = true;
 
   isSubcribed = true;
@@ -180,8 +184,6 @@ function handleSubscribeConfirm() {
 
   subscribeMessage.textContent = "추천이 완료되었습니다.";
   subscribeMessage.classList.add("is-success");
-
-  subscribeCompleteDialog.showModal();
 
   completionActions.hidden = false;
 }
@@ -249,10 +251,7 @@ function handleNewRecommendation() {
   subscribeMessage.classList.remove("is-success");
 }
 
-newRecommendation.addEventListener(
-  "click",
-  handleNewRecommendation
-);
+newRecommendation.addEventListener("click", handleNewRecommendation);
 
 subscribeForm.addEventListener("submit", function (event) {
   event.preventDefault();
