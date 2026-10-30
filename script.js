@@ -1,43 +1,264 @@
-const serviceName = "bestGame";
 let isSubcribed = false;
 let submitCount = 0;
 
+const subscribeForm = document.querySelector("#subscribe-form");
+const subscribeMessage = document.querySelector("#subscribeMessage");
+const subscribeSteps = document.querySelectorAll(".subscribe-step");
+const gameNameInput = document.querySelector("#game-name");
+const gameGenreInput = document.querySelector("#game-genre");
+const gameDescriptionInput = document.querySelector("#game-description");
+const emailInput = document.querySelector("#email");
+const subscribeNext = document.querySelector("#subscribe-next");
+const subscribePrev = document.querySelector("#subscribe-prev");
+const descriptionCount = document.querySelector("#description-count");
+const gameNameError = document.querySelector("#game-name-error");
+const gameGenreError = document.querySelector("#game-genre-error");
+const gameDescriptionError = document.querySelector("#game-description-error");
+const emailError = document.querySelector("#email-error");
+const subscribeReview = document.querySelector("#subscribe-review");
+const subscribeReviewPrev = document.querySelector("#subscribe-review-prev");
+const subscribeConfirm = document.querySelector("#subscribe-confirm");
+const reviewGameName = document.querySelector("#review-game-name");
+const reviewGameGenre = document.querySelector("#review-game-genre");
+const reviewGameDescription = document.querySelector("#review-game-description");
+const reviewEmail = document.querySelector("#review-email");
+const subscribeCompleteDialog = document.querySelector("#subscribe-complete-dialog");
+const viewMyRecommendation = document.querySelector("#view-my-recommendation");
+const newRecommendation = document.querySelector("#new-recommendation");
+const myRecommendationDialog = document.querySelector("#my-recommendation-dialog");
+const closeMyRecommendation = document.querySelector("#close-my-recommendation");
+const myGameName = document.querySelector("#my-game-name");
+const myGameGenre = document.querySelector("#my-game-genre");
+const myGameDescription = document.querySelector("#my-game-description");
+const myEmail = document.querySelector("#my-email");
+const completionActions = document.querySelector("#completion-actions");
+const completionView = document.querySelector("#completion-view");
+const completionNew = document.querySelector("#completion-new");
 
-function makeSubcribeMessage(email, subscribed) {
-  if (subscribed == true) {
-    return email + "로 신청이 완료되었습니다.";
-  }
-  
-  return "이메일을 입력한 뒤 신청해주세요.";
+
+function updateFieldState(input, isValid) {
+  input.classList.toggle("is-valid", isValid);
+  input.classList.toggle("is-invalid", !isValid);
+  input.setAttribute("aria-invalid", String(!isValid));
 }
 
-const subscribeForm = document.querySelector("#subscribe-form");
-const emailInput = document.querySelector("#email");
-const subscribeButton = document.querySelector("#subscribeButton");
-const subscribeMessage = document.querySelector("#subscribeMessage");
+function validateGameName() {
+  const gameName = gameNameInput.value.trim();
+  const isValid = gameName.length >= 2;
 
-function handleSubscribe(event) {
-  event.preventDefault();
+  updateFieldState(gameNameInput, isValid);
 
+  gameNameError.textContent = isValid
+    ? ""
+    : "게임 제목은 2자 이상 입력해주세요.";
+
+  return isValid;
+}
+
+function validateGameGenre() {
+  const gameGenre = gameGenreInput.value.trim();
+  const isValid = gameGenre.length >= 2;
+
+  updateFieldState(gameGenreInput, isValid);
+
+  gameGenreError.textContent = isValid
+    ? ""
+    : "게임 장르는 2자 이상 입력해주세요.";
+
+  return isValid;
+}
+
+function validateGameDescription() {
+  const gameDescription = gameDescriptionInput.value.trim();
+  const isValid = gameDescription.length >= 10;
+
+  updateFieldState(gameDescriptionInput, isValid);
+
+  gameDescriptionError.textContent = isValid
+    ? ""
+    : "게임 소개는 10자 이상 입력해주세요.";
+
+  return isValid;
+}
+
+function validateEmail() {
   const subscriberEmail = emailInput.value.trim();
+  const isValid =
+    subscriberEmail !== "" && emailInput.validity.valid;
 
-  if (subscriberEmail === "") {
-    subscribeMessage.textContent = "이메일을 입력한 뒤 신청해주세요.";
+  updateFieldState(emailInput, isValid);
+
+  emailError.textContent = isValid
+    ? ""
+    : "올바른 이메일 주소를 입력해주세요.";
+
+  return isValid;
+}
+
+function handleSubscribeNext() {
+  const isNameValid = validateGameName();
+  const isGenreValid = validateGameGenre();
+
+  if (!isNameValid) {
+    gameNameInput.focus();
+    return;
+  }
+
+  if (!isGenreValid) {
+    gameGenreInput.focus();
+    return;
+  }
+
+  subscribeMessage.textContent = "";
+
+  subscribeSteps[0].hidden = true;
+  subscribeSteps[1].hidden = false;
+}
+
+subscribeNext.addEventListener("click", handleSubscribeNext);
+
+function handleSubscribePrev() {
+  subscribeSteps[1].hidden = true;
+  subscribeSteps[0].hidden = false;
+}
+
+subscribePrev.addEventListener("click", handleSubscribePrev);
+
+function updateDescriptionCount() {
+  const currentLength = gameDescriptionInput.value.length;
+
+  descriptionCount.textContent = `${currentLength} / 500자`;
+}
+
+gameDescriptionInput.addEventListener("input", updateDescriptionCount);
+
+gameNameInput.addEventListener("input", validateGameName);
+gameGenreInput.addEventListener("input", validateGameGenre);
+gameDescriptionInput.addEventListener("input", validateGameDescription);
+emailInput.addEventListener("input", validateEmail);
+
+function handleSubscribeReview() {
+  const isDescriptionValid = validateGameDescription();
+  const isEmailValid = validateEmail();
+
+  if (!isDescriptionValid) {
+    gameDescriptionInput.focus();
+    return;
+  }
+
+  if (!isEmailValid) {
     emailInput.focus();
     return;
   }
 
+  reviewGameName.textContent = gameNameInput.value.trim();
+  reviewGameGenre.textContent = gameGenreInput.value.trim();
+  reviewGameDescription.textContent = gameDescriptionInput.value.trim();
+  reviewEmail.textContent = emailInput.value.trim();
+
+  subscribeSteps[1].hidden = true;
+  subscribeSteps[2].hidden = false;
+}
+
+subscribeReview.addEventListener("click", handleSubscribeReview);
+
+function handleSubscribeReviewPrev() {
+  subscribeSteps[2].hidden = true;
+  subscribeSteps[1].hidden = false;
+}
+
+subscribeReviewPrev.addEventListener(
+  "click",
+  handleSubscribeReviewPrev
+);
+
+function handleSubscribeConfirm() {
+  subscribeSteps[2].hidden = true;
+
   isSubcribed = true;
   submitCount += 1;
 
-  subscribeMessage.textContent = makeSubcribeMessage(subscriberEmail, isSubcribed);
-
+  subscribeMessage.textContent = "추천이 완료되었습니다.";
   subscribeMessage.classList.add("is-success");
 
-  subscribeButton.textContent = "신청완료";
-  subscribeButton.disabled = true;
+  subscribeCompleteDialog.showModal();
+
+  completionActions.hidden = false;
 }
-subscribeForm.addEventListener("submit", handleSubscribe);
+
+subscribeConfirm.addEventListener("click", handleSubscribeConfirm);
+completionView.addEventListener("click", handleViewMyRecommendation);
+completionNew.addEventListener("click", handleNewRecommendation);
+
+function handleViewMyRecommendation() {
+  subscribeCompleteDialog.close();
+
+  myGameName.textContent = gameNameInput.value.trim();
+  myGameGenre.textContent = gameGenreInput.value.trim();
+  myGameDescription.textContent =
+    gameDescriptionInput.value.trim();
+  myEmail.textContent = emailInput.value.trim();
+
+  myRecommendationDialog.showModal();
+}
+
+viewMyRecommendation.addEventListener(
+  "click",
+  handleViewMyRecommendation
+);
+
+function handleCloseMyRecommendation() {
+  myRecommendationDialog.close();
+}
+
+closeMyRecommendation.addEventListener(
+  "click",
+  handleCloseMyRecommendation
+);
+
+function handleNewRecommendation() {
+  subscribeCompleteDialog.close();
+  subscribeForm.reset();
+  subscribeSteps.forEach(function (step) {
+    step.hidden = true;
+  });
+
+  subscribeSteps[0].hidden = false;
+
+  const inputs = subscribeForm.querySelectorAll("input, textarea");
+
+  inputs.forEach(function (input) {
+    input.classList.remove("is-valid", "is-invalid");
+    input.removeAttribute("aria-invalid");
+  });
+
+  const errorMessages =
+    subscribeForm.querySelectorAll(".error-message");
+
+  errorMessages.forEach(function (message) {
+    message.textContent = "";
+  });
+
+  updateDescriptionCount();
+
+  isSubcribed = false;
+
+  subscribeMessage.textContent =
+    "게임 정보를 입력한 뒤 신청해주세요.";
+
+  subscribeMessage.classList.remove("is-success");
+}
+
+newRecommendation.addEventListener(
+  "click",
+  handleNewRecommendation
+);
+
+subscribeForm.addEventListener("submit", function (event) {
+  event.preventDefault();
+});
+
+updateDescriptionCount();
 
 const thumbsUp = document.querySelector("#thumbsUp");
 const commet = document.querySelector("#commet");

@@ -179,6 +179,98 @@ button:active {
   transform: translateY(1px);
 }
 
+.subscribe-card {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 32px;
+  background-color: #f4f3ff;
+  border: 1px solid #deddea;
+  border-radius: 24px;
+}
+
+.subscribe-card h2 {
+  margin-bottom: 28px;
+  color: #3558f5;
+  text-align: center;
+}
+
+#subscribe-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.subscribe-step {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+  background-color: #ffffff;
+  border: 1px solid #deddea;
+  border-radius: 16px;
+}
+
+.subscribe-step[hidden] {
+  display: none !important;
+}
+
+.subscribe-step label {
+  margin-top: 8px;
+  color: #413b50;
+  font-weight: 600;
+}
+
+.subscribe-step input,
+.subscribe-step textarea {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid #deddea;
+  border-radius: 10px;
+  background-color: #ffffff;
+  font: inherit;
+  font-size: 15px;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.subscribe-step input:focus,
+.subscribe-step textarea:focus {
+  border-color: #9656fd;
+  box-shadow: 0 0 0 3px rgba(150, 86, 253, 0.12);
+}
+
+.subscribe-step textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.subscribe-step button {
+  min-height: 46px;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 10px;
+  background-color: #9656fd;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.subscribe-step button:hover {
+  background-color: #7940d9;
+}
+
+#subscribe-prev {
+  background-color: #eae7f5;
+  color: #51466b;
+}
+
+#subscribe-prev:hover {
+  background-color: #dcd5ed;
+}
+
 #subscribeMessage{
   margin-top: 16px;
   color: #6e6e70;
@@ -556,6 +648,150 @@ body.thumbs #thumbsUp {
   margin-bottom: 0;
 }
 
+.subscribe-step input,
+.subscribe-step textarea {
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.subscribe-step input.is-invalid,
+.subscribe-step textarea.is-invalid {
+  border: 1px solid #e54848;
+  background-color: #fff0f0;
+}
+
+.subscribe-step label:has(+ input.is-invalid),
+.subscribe-step label:has(+ textarea.is-invalid) {
+  color: #d93636;
+}
+
+.subscribe-step input.is-valid,
+.subscribe-step textarea.is-valid {
+  border: 1px solid #36a269;
+  background-color: #edfaf0;
+}
+
+.subscribe-step label:has(+ input.is-valid),
+.subscribe-step label:has(+ textarea.is-valid) {
+  color: #25834c;
+}
+
+.subscribe-step input.is-invalid:focus,
+.subscribe-step textarea.is-invalid:focus {
+  box-shadow: 0 0 0 3px rgba(229, 72, 72, 0.12);
+}
+
+.subscribe-step input.is-valid:focus,
+.subscribe-step textarea.is-valid:focus {
+  box-shadow: 0 0 0 3px rgba(54, 162, 105, 0.12);
+}
+
+#description-count {
+  margin: -4px 4px 8px 0;
+  color: #77718a;
+  font-size: 13px;
+  text-align: right;
+  font-weight: 500;
+}
+
+.error-message {
+  min-height: 18px;
+  margin: -6px 2px 4px;
+  color: #d93636;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.error-message:empty {
+  display: none;
+}
+
+.recommend-summary {
+  padding: 20px;
+  margin: 16px 0;
+  background-color: #fff;
+  border: 1px solid #deddea;
+  border-radius: 14px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.recommend-summary p {
+  margin: 8px 0;
+}
+
+#subscribe-complete-dialog,
+#my-recommendation-dialog {
+  width: min(480px, calc(100% - 32px));
+  padding: 28px;
+  border: 1px solid #deddea;
+  border-radius: 20px;
+  background-color: #fff;
+  color: #27232c;
+}
+
+#subscribe-complete-dialog::backdrop,
+#my-recommendation-dialog::backdrop {
+  background-color: rgba(30, 20, 39, 0.6);
+}
+
+#subscribe-complete-dialog h3,
+#my-recommendation-dialog h3 {
+  color: #3558f5;
+  margin-top: 0;
+}
+
+.complete-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.complete-actions button,
+#close-my-recommendation {
+  width: 100%;
+  min-height: 44px;
+  border: none;
+  border-radius: 10px;
+  background-color: #9656fd;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#new-recommendation {
+  background-color: #eee9fc;
+  color: #6842b8;
+}
+
+#close-my-recommendation {
+  margin-top: 16px;
+}
+
+.completion-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.completion-actions button {
+  min-height: 44px;
+  padding: 12px 24px;
+  border: 1px solid #6c5fff;
+  border-radius: 10px;
+  background: #9656fd;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.completion-actions button:hover {
+  background: #7840df;
+}
 
 /*웹페이지가 표시되는 가로 폭이 768px 이하일 때만 적용*/
 @media (max-width: 768px) {
@@ -695,5 +931,47 @@ button{
   #favorite-list li {
     padding: 12px;
     overflow-wrap: anywhere;
+  }
+
+  .subscribe-card {
+    width: auto;
+    margin: 24px 16px;
+    padding: 20px;
+  }
+
+  .subscribe-card h2 {
+    font-size: 22px;
+  }
+
+  .subscribe-step {
+    padding: 18px;
+    gap: 12px;
+  }
+
+  .subscribe-step input,
+  .subscribe-step textarea {
+    font-size: 16px;
+  }
+
+  .subscribe-step button {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  #subscribe-complete-dialog,
+  #my-recommendation-dialog {
+    padding: 22px;
+  }
+
+  .recommend-summary {
+    padding: 16px;
+  }
+
+  .completion-actions {
+    flex-direction: column;
+  }
+
+  .completion-actions button {
+    width: 100%;
   }
 }
