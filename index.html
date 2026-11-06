@@ -19,18 +19,30 @@
   핵심 행동: 게임에 대한 정보 확인과 플레이
   정보 순서: 게임 제목 -> 한 줄 소개 -> 캐릭터 -> 플레이 방식 -> 게임 정보 -> 플레이하기
   -->
-  <header> 
-    <h1>게임 소개 홈페이지</h1>
-    <p>게이머들에게 게임에 대한 정보를 공유합니다.</p>
+  <div class="header-bar">
+    <div class="container header-inner">
+      <a href="#" class="main-nav" aria-label="주요메뉴">GAME PICK</a>
+      <button type="button" id="menu-toggle" class="menu-toggle" aria-label="메뉴 열기" aria-expanded="false" aria-controls="main-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav id="main-nav" class="main-nav" aria-label="주요 메뉴">
+        <ul>
+          <li><a href="#about" class="nav-link">서비스 소개</a></li>
+          <li><a href="#features" class="nav-link">추천 게임</a></li>
+          <li><a href="#subscribe" class="nav-link">게임 추천 신청하기</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
 
-    <nav aria-label="주요 메뉴">
-      <a href="#about">서비스 소개</a>
-      <a href="#features">추천 게임</a>
-      <a href="#steps">게임을 즐기는 방법</a>
-      <a href="#subscribe">게임 추천 신청하기</a>
-    </nav>
+  <header class="site-header">
+    <div class="header-banner">
+      <img src="assets/images/라벤더 드림 게이밍 배너.png" alt="게임 추천 홈페이지">
+    </div>
   </header>
-  
+
   <main>
     <section id="about">
       <h2>서비스 소개</h2>
@@ -352,7 +364,7 @@
               이전 단계
             </button>
 
-            <button id="subscribe-confirm" type="button">
+            <button id="subscribe-confirm" type="submit">
               추천하기
             </button>
           </div>
@@ -405,6 +417,34 @@
         </button>
       </div>
 
+    </section>
+
+    <section id="my-recommendations" class="recommendations-section">
+      <h2>내 추천 목록</h2>
+      <p>내가 신청한 게임들을 확인할 수 있습니다.</p>
+
+      <div class="recommendation-filters">
+        <button type="button" class="filter-button is-active"
+          data-filter="all">
+          전체
+        </button>
+        <button type="button" class="filter-button"
+          data-filter="completed">
+          작성 완료
+        </button>
+        <button type="button" class="filter-button"
+          data-filter="pending">
+          검토 중
+        </button>
+      </div>
+      <p id="recommendation-count">
+        총 0개의 추천 게임
+      </p>
+      <div id="recommendation-list" class="recommendation-list">
+        <p id="recommendation-empty">
+          아직 추천한 게임이 없습니다.
+        </p>
+      </div>
     </section>
   </main>
 

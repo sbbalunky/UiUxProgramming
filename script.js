@@ -1,5 +1,6 @@
 let isSubcribed = false;
 let submitCount = 0;
+let currentFilter = "all";
 
 const subscribeForm = document.querySelector("#subscribe-form");
 const subscribeMessage = document.querySelector("#subscribeMessage");
@@ -34,7 +35,25 @@ const myEmail = document.querySelector("#my-email");
 const completionActions = document.querySelector("#completion-actions");
 const completionView = document.querySelector("#completion-view");
 const completionNew = document.querySelector("#completion-new");
+const savedRecommendations = localStorage.getItem("recommendations");
 
+let recommendations = savedRecommendations
+  ? JSON.parse(savedRecommendations)
+  : [];
+
+const migrationId = Date.now();
+
+recommendations = recommendations.map(function (recommendation, index) {
+  return {
+    ...recommendation,
+    id: recommendation.id ?? migrationId + index
+  };
+});
+
+localStorage.setItem(
+  "recommendations",
+  JSON.stringify(recommendations)
+);
 
 function updateFieldState(input, isValid) {
   input.classList.toggle("is-valid", isValid);
@@ -175,9 +194,28 @@ subscribeReviewPrev.addEventListener(
 function handleSubscribeConfirm(event) {
   event.preventDefault();
 
+  
   if (isSubcribed) {
     return;
   }
+  
+  const recommendation = {
+    id: Date.now(),
+    name: gameNameInput.value.trim(),
+    genre: gameGenreInput.value.trim(),
+    description: gameDescriptionInput.value.trim(),
+    email: emailInput.value.trim(),
+    status: "pending"
+  };
+  
+  recommendations.push(recommendation);
+
+  localStorage.setItem(
+    "recommendations",
+    JSON.stringify(recommendations)
+  );
+
+  renderRecommendations(recommendations);
 
   subscribeSteps[2].hidden = true;
 
@@ -255,11 +293,141 @@ function handleNewRecommendation() {
 
 newRecommendation.addEventListener("click", handleNewRecommendation);
 
-subscribeForm.addEventListener("submit", function (event) {
-  event.preventDefault();
+updateDescriptionCount();
+
+const recommendationList = document.querySelector("#recommendation-list");
+const recommendationCount = document.querySelector("#recommendation-count");
+const recommendationEmpty = document.querySelector("#recommendation-empty");
+const filterButtons = document.querySelectorAll(".filter-button");
+
+function createRecommendationCard(recommendation) {
+  const card = document.createElement("div");
+  card.classList.add("recommendation-card");
+
+  // 카드 상단 영역
+  const header = document.createElement("div");
+  header.classList.add("recommendation-card-header");
+
+  // 게임 이름
+  const title = document.createElement("h3");
+  title.classList.add("recommendation-card-title");
+  title.textContent = recommendation.name;
+
+  // 신청 상태
+  const status = document.createElement("span");
+  status.classList.add("recommendation-status");
+
+  if (recommendation.status === "completed") {
+    status.textContent = "작성 완료";
+    status.classList.add("is-completed");
+  } else {
+    status.textContent = "검토 중";
+    status.classList.add("is-pending");
+  }
+
+  header.appendChild(title);
+  header.appendChild(status);
+
+  // 게임 장르
+  const genre = document.createElement("p");
+  genre.classList.add("recommendation-genre");
+  genre.textContent = `장르: ${recommendation.genre}`;
+
+  // 게임 소개
+  const description = document.createElement("p");
+  description.classList.add("recommendation-description");
+  description.textContent = recommendation.description;
+
+  // 삭제 버튼
+  const deleteButton = document.createElement("button");
+  deleteButton.type = "button";
+  deleteButton.classList.add("recommendation-delete");
+  deleteButton.textContent = "삭제";
+
+  deleteButton.addEventListener("click", function () {
+    handleDeleteRecommendation(recommendation.id);
+  });
+
+  card.appendChild(header);
+  card.appendChild(genre);
+  card.appendChild(description);
+  card.appendChild(deleteButton);
+
+  return card;
+}
+
+function handleDeleteRecommendation(id) {
+  const isDelete = confirm("이 추천 게임을 삭제하시겠습니까?");
+
+  if (!isDelete) {
+    return;
+  }
+
+  recommendations = recommendations.filter(function (recommendation) {
+    return recommendation.id !== id;
+  });
+
+  localStorage.setItem(
+    "recommendations",
+    JSON.stringify(recommendations)
+  );
+
+  renderRecommendations(recommendations);
+}
+
+function renderRecommendations(list) {
+  recommendationList.innerHTML = "";
+
+  recommendationCount.textContent =
+    `총 ${list.length}개의 추천 게임`;
+
+  if (list.length === 0) {
+    recommendationEmpty.hidden = false;
+    recommendationList.appendChild(recommendationEmpty);
+    return;
+  }
+
+  recommendationEmpty.hidden = true;
+
+  list.forEach(function (recommendation) {
+    const card = createRecommendationCard(recommendation);
+    recommendationList.appendChild(card);
+  });
+}
+
+function filterRecommendations() {
+  let filteredRecommendations = recommendations;
+
+  if (currentFilter === "completed") {
+    filteredRecommendations = recommendations.filter(function (recommendation) {
+      return recommendation.status === "completed";
+    });
+  }
+
+  if (currentFilter === "pending") {
+    filteredRecommendations = recommendations.filter(function (recommendation) {
+      return recommendation.status === "pending";
+    });
+  }
+
+  renderRecommendations(filteredRecommendations);
+}
+
+filterButtons.forEach(function (button) {
+  button.addEventListener("click", function () {
+    currentFilter = button.dataset.filter;
+
+    filterButtons.forEach(function (filterButton) {
+      filterButton.classList.remove("is-active");
+    });
+
+    button.classList.add("is-active");
+
+    filterRecommendations();
+  });
 });
 
-updateDescriptionCount();
+filterRecommendations();
 
 const thumbsUp = document.querySelector("#thumbsUp");
 const commet = document.querySelector("#commet");
@@ -506,16 +674,15 @@ function updateFavoriteButton() {
     favoriteButton.setAttribute("aria-pressed", "false");
     favoriteButton.textContent = "♡ 즐겨찾기 추가"
   }
-  //목록의 기존 내용 비우기
+
   favoriteList.innerHTML = "";
 
   if (isFavorite) {
-    //새로운 목록 항목을 만들기
+
     const gameItem = document.createElement("li");
 
     gameItem.textContent = "산나비";
     
-    //만든 항목을 목록에 추가
     favoriteList.appendChild(gameItem);
 
   } else {
@@ -537,3 +704,89 @@ function handleFavoriteClick() {
 updateFavoriteButton();
 
 favoriteButton.addEventListener("click", handleFavoriteClick);
+
+const headerBar = document.querySelector(".header-bar");
+const navLinks = document.querySelectorAll(".nav-link");
+
+const sections = [
+  document.querySelector("#about"),
+  document.querySelector("#features"),
+  document.querySelector("#subscribe")
+];
+
+function setActiveMenu(sectionId) {
+  navLinks.forEach(function (link) {
+    const isActive = link.getAttribute("href") === `#${sectionId}`;
+
+    link.classList.toggle("is-active", isActive);
+
+    if (isActive) {
+      link.setAttribute("aria-current", "location");
+    } else {
+      link.removeAttribute("aria-current");
+    }
+  });
+}
+
+navLinks.forEach(function (link) {
+  link.addEventListener("click", function () {
+    const sectionId = link.getAttribute("href").substring(1);
+    setActiveMenu(sectionId);
+  });
+});
+
+const headerHeight = headerBar.offsetHeight;
+
+sections.forEach(function (section) {
+  section.style.scrollMarginTop = `${headerHeight + 16}px`;
+});
+
+const observer = new IntersectionObserver(
+  function (entries) {
+    const visibleSections = entries
+      .filter(function (entry) {
+        return entry.isIntersecting;
+      })
+      .sort(function (a, b) {
+        return a.boundingClientRect.top - b.boundingClientRect.top;
+      });
+
+    if (visibleSections.length > 0) {
+      setActiveMenu(visibleSections[0].target.id);
+    }
+  },
+  {
+    rootMargin: `-${headerHeight}px 0px -60% 0px`,
+    threshold: 0
+  }
+);
+
+sections.forEach(function (section) {
+  if (section) {
+    observer.observe(section);
+  }
+});
+
+const menuToggle = document.querySelector("#menu-toggle");
+const mainNav = document.querySelector("#main-nav");
+
+// 메뉴 열기 및 닫기
+menuToggle.addEventListener("click", function () {
+  const isOpen = mainNav.classList.toggle("is-open");
+
+  menuToggle.setAttribute("aria-expanded", isOpen);
+  menuToggle.setAttribute(
+    "aria-label",
+    isOpen ? "메뉴 닫기" : "메뉴 열기"
+  );
+});
+
+// 메뉴를 선택하면 메뉴 닫기
+navLinks.forEach(function (link) {
+  link.addEventListener("click", function () {
+    mainNav.classList.remove("is-open");
+
+    menuToggle.setAttribute("aria-expanded", "false");
+    menuToggle.setAttribute("aria-label", "메뉴 열기");
+  });
+});
