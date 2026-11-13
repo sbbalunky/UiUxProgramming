@@ -82,7 +82,8 @@
           role="tab"
           aria-selected="true"
           aria-controls="feature-title"
-          data-target="#feature-title">
+          data-target="#feature-title"
+          tabindex="0">
           게임 제목
         </button>
 
@@ -93,7 +94,8 @@
           role="tab"
           aria-selected="false"
           aria-controls="feature-introduction"
-          data-target="#feature-introduction">
+          data-target="#feature-introduction"
+          tabindex="-1">
           한 줄 소개
         </button>
 
@@ -104,7 +106,8 @@
           role="tab"
           aria-selected="false"
           aria-controls="feature-character"
-          data-target="#feature-character">
+          data-target="#feature-character"
+          tabindex="-1">
           주요캐릭터
         </button>
 
@@ -115,7 +118,8 @@
           role="tab"
           aria-selected="false"
           aria-controls="feature-method"
-          data-target="#feature-method">
+          data-target="#feature-method"
+          tabindex="-1">
           게임 플레이 방식
         </button>
 
@@ -126,7 +130,8 @@
           role="tab"
           aria-selected="false"
           aria-controls="feature-information"
-          data-target="#feature-information">
+          data-target="#feature-information"
+          tabindex="-1">
           게임 기본 정보
         </button>
       </div>
@@ -139,7 +144,7 @@
 
         <h3>산나비</h3>
         
-        <img src="assets/images/SanabiMain.png" alt="산나비 게임 메인 일러스트">
+        <img src="assets/images/SanabiMain.png" alt="산나비 주인공인 퇴역군인의 사슬팔 액션 일러스트">
 
         <button id="favorite-button" type="button" aria-pressed="false">♡ 즐겨찾기 추가</button>
       </div>
@@ -316,6 +321,19 @@
           <button id="finish-button" type="button">기록하기</button>
         </div>
       </section>
+
+      <section id="recording-complete" class="step" hidden>
+        <h3>기록이 완료되었습니다!</h3>
+        <p>소중한 플레이 후기를 남겨주셔서 감사합니다.</p>
+
+        <p class="complete-status">
+          <strong>기록 상태 : 완료</strong>
+        </p>
+
+        <button id="restart-button" type="button">
+          다시 기록하기
+        </button>
+      </section>
     </section>
 
 
@@ -323,25 +341,27 @@
       <h2>게임 추천 신청하기</h2>
       <form id = "subscribe-form" novalidate>
         <div class="subscribe-step" data-step="1">
+          <h3 tabindex="-1">게임 정보를 입력해주세요.</h3>
           <label for="game-name">게임 이름</label>
-          <input type="text" id="game-name" name="gameName" placeholder="게임 이름을 입력해주세요." required>
+          <input type="text" id="game-name" name="gameName" placeholder="게임 이름을 입력해주세요." aria-describedby="game-name-error" required>
           <p id="game-name-error" class="error-message" aria-live="polite"></p>
 
           <label for="game-genre">게임 장르</label>
-          <input type="text" id="game-genre" name="gameGenre" placeholder="게임 장르를 입력해주세요." required>
+          <input type="text" id="game-genre" name="gameGenre" placeholder="게임 장르를 입력해주세요." aria-describedby="game-genre-error" required>
           <p id="game-genre-error" class="error-message" aria-live="polite"></p>
 
           <button id="subscribe-next" type="button">다음 단계</button>
         </div>
 
         <div class="subscribe-step" data-step="2" hidden>
+          <h3 tabindex="-1">게임 소개와 이메일을 입력해주세요.</h3>
           <label for="game-description">게임 소개</label>
-          <textarea id="game-description" name="gameDescription" placeholder="게임에 대한 소개를 작성해주세요." rows="4" maxlength="500" required></textarea>
+          <textarea id="game-description" name="gameDescription" placeholder="게임에 대한 소개를 작성해주세요." rows="4" maxlength="500" aria-describedby="game-description-error description-count" required></textarea>
           <p id="game-description-error" class="error-message" aria-live="polite"></p>
           <p id="description-count">0 / 500자</p>
 
           <label for="email">이메일</label>
-          <input type="email" id="email" name="email" placeholder="이메일을 입력해주세요." required>
+          <input type="email" id="email" name="email" placeholder="이메일을 입력해주세요." aria-describedby="email-error" required>
           <p id="email-error" class="error-message" aria-live="polite"></p>
   
           <button id="subscribe-prev" type="button">이전 단계</button>
@@ -350,7 +370,7 @@
         </div>
         
         <div class="subscribe-step" data-step="3" hidden>
-          <h3>작성하신 내용을 확인해주세요.</h3>
+          <h3 tabindex="-1">작성하신 내용을 확인해주세요.</h3>
 
           <div class="recommend-summary">
             <p>게임 이름: <span id="review-game-name"></span></p>
@@ -437,7 +457,7 @@
           검토 중
         </button>
       </div>
-      <p id="recommendation-count">
+      <p id="recommendation-count" aria-live="polite" aria-atomic="true">
         총 0개의 추천 게임
       </p>
       <div id="recommendation-list" class="recommendation-list">
@@ -449,7 +469,7 @@
   </main>
 
   <footer>
-    <samll>@2026 게임 추천 서비스</samll>
+    <small>@2026 게임 추천 서비스</small>
   </footer>
 
   <script src="script.js"></script>

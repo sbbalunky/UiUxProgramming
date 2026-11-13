@@ -132,6 +132,8 @@ function handleSubscribeNext() {
 
   subscribeSteps[0].hidden = true;
   subscribeSteps[1].hidden = false;
+
+  subscribeSteps[1].querySelector("h3").focus();
 }
 
 subscribeNext.addEventListener("click", handleSubscribeNext);
@@ -139,6 +141,7 @@ subscribeNext.addEventListener("click", handleSubscribeNext);
 function handleSubscribePrev() {
   subscribeSteps[1].hidden = true;
   subscribeSteps[0].hidden = false;
+  subscribeSteps[0].querySelector("h3").focus();
 }
 
 subscribePrev.addEventListener("click", handleSubscribePrev);
@@ -177,6 +180,8 @@ function handleSubscribeReview() {
 
   subscribeSteps[1].hidden = true;
   subscribeSteps[2].hidden = false;
+
+  subscribeSteps[2].querySelector("h3").focus();
 }
 
 subscribeReview.addEventListener("click", handleSubscribeReview);
@@ -184,6 +189,8 @@ subscribeReview.addEventListener("click", handleSubscribeReview);
 function handleSubscribeReviewPrev() {
   subscribeSteps[2].hidden = true;
   subscribeSteps[1].hidden = false;
+
+  subscribeSteps[1].querySelector("h3").focus();
 }
 
 subscribeReviewPrev.addEventListener(
@@ -516,16 +523,48 @@ function resetTabsAndPanel() {
   });
 }
 
-function activateTab(clickedTab) {
-  const targetSelector = clickedTab.dataset.target;
-  const targetPanel = document.querySelector(targetSelector);
+function activateTab(selectedTab) {
+  tabs.forEach((tab) => {
+    const isSelected = tab === selectedTab;
 
-  clickedTab.classList.add("is-active");
-  clickedTab.setAttribute("aria-selected", "true");
+    tab.classList.toggle("is-active", isSelected);
+    tab.setAttribute("aria-selected", isSelected);
+    tab.tabIndex = isSelected ? 0 : -1;
 
-  targetPanel.classList.add("is-active");
-  targetPanel.hidden = false;
+    const panelId = tab.getAttribute("aria-controls");
+    const panel = document.getElementById(panelId);
+
+    if (panel) {
+      panel.hidden = !isSelected;
+    }
+  });
 }
+
+tabs.forEach((tab) => {
+  tab.addEventListener("keydown", (event) => {
+    const currentIndex = Array.from(tabs).indexOf(tab);
+    let nextIndex = currentIndex;
+
+    if (event.key === "ArrowRight") {
+      nextIndex = (currentIndex + 1) % tabs.length;
+    } else if (event.key === "ArrowLeft") {
+      nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+    } else if (event.key === "Home") {
+      nextIndex = 0;
+    } else if (event.key === "End") {
+      nextIndex = tabs.length - 1;
+    } else {
+      return;
+    }
+
+    event.preventDefault();
+
+    const nextTab = tabs[nextIndex];
+
+    activateTab(nextTab);
+    nextTab.focus();
+  });
+});
 
 function handleTabClick(event) {
   resetTabsAndPanel();
@@ -556,6 +595,8 @@ const recommendAgree = document.querySelector("#recommend-agree");
 const summaryReview = document.querySelector("#summary-review");
 const summaryRecommend = document.querySelector("#summary-recommend");
 const summaryPrev = document.querySelector("#summary-prev");
+const recordingComplete = document.querySelector("#recording-complete");
+const restartButton = document.querySelector("#restart-button");
 
 openRecording.addEventListener("click", function () {
   recordingDialog.showModal();
@@ -603,7 +644,7 @@ function handleScoreChange(event) {
   const selectedScore = Array.from(scoreboard)
   .find((star) => star.checked);
 
-  summaryScoreboard.________ =
+  summaryScoreboard.textContent =
   selectedScore.value + "점";
 
   if (star.checked) {
@@ -655,11 +696,38 @@ function handleSummaryPrev() {
 }
 
 function handleFinishClick() {
-  alert("게임 평가 기록이 완료되었습니다!");
+  steps[3].hidden = true;
+  recordingComplete.hidden = false;
 }
 
 summaryPrev.addEventListener("click", handleSummaryPrev);
 finishButton.addEventListener("click", handleFinishClick);
+
+function handleRestartClick() {
+
+  reviewTitle.value = "";
+
+  scoreboard.forEach((star) => {
+    star.checked = false;
+  });
+
+  titleError.textContent = "";
+  scoreMessage.textContent = "별점을 선택해주세요.";
+
+  summaryReview.textContent = "";
+  summaryScoreboard.textContent = "";
+  summaryRecommend.textContent = "";
+
+  steps.forEach((step) => {
+    step.hidden = true;
+  });
+
+  steps[0].hidden = false;
+
+  recordingFlow.hidden = false;
+}
+
+restartButton.addEventListener("click", handleRestartClick);
 
 const favoriteButton = document.querySelector("#favorite-button");
 const favoriteList = document.querySelector("#favorite-list");
