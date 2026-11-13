@@ -23,12 +23,6 @@
   outline-offset: 4px;
 }
 
-input:focus-visible,
-textarea:focus-visible {
-  outline: 3px solid #9656fd;
-  outline-offset: 2px;
-}
-
 body {
   color: #000000;
   font-family: 'Noto Sans KR', sans-serif;
@@ -68,6 +62,7 @@ header {
 
 section {
   margin-top: 56px;
+  scroll-margin-top: 190px;
 }
 
 footer {
@@ -113,7 +108,7 @@ nav a {
 }
 
 .main-nav a:hover {
-  color: var(--blue);
+  color: var(--secondary);
 }
 
 html {
@@ -296,7 +291,7 @@ button {
   border: 0;
   border-radius: 10px;
   color: #ffffff;
-  background-color: #9656fd;
+  background-color: #7e3fe0;
   cursor: pointer;
   transition: background-color 0.2s, transform 0.2s ease;
 }
@@ -309,13 +304,6 @@ button {
 button:hover {
   background-color: #683bb1;
 }
-
-button:focus,
-input:focus {
-  outline: 3px solid #b9b5ff;
-  outline-offset: 2px;
-}
-
 
 button:active {
   transform: translateY(1px);
@@ -374,12 +362,6 @@ button:active {
   box-sizing: border-box;
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.subscribe-step input:focus,
-.subscribe-step textarea:focus {
-  border-color: #9656fd;
-  box-shadow: 0 0 0 3px rgba(150, 86, 253, 0.12);
 }
 
 .subscribe-step textarea {
@@ -513,9 +495,9 @@ body.thumbs #thumbsUp {
   border: 1px solid #deddea;
 }
 
-.tab.hover{
-  color: #ffffff;
-  background-color: #4b43db;
+.tab.is-active:hover{
+  color: #635bff;
+  background-color: #ffffff;
 }
 
 .tab.is-active{
@@ -1074,6 +1056,17 @@ body.thumbs #thumbsUp {
   display: none;
 }
 
+:focus-visible {
+  outline: 3px solid #3558f5;
+  outline-offset: 3px;
+}
+
+.subscribe-step input:focus-visible,
+.subscribe-step textarea:focus-visible {
+  outline: 3px solid #3558f5;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px rgba(53, 88, 245, 0.12);
+}
 /*웹페이지가 표시되는 가로 폭이 768px 이하일 때만 적용*/
 @media (max-width: 768px) {
 .menu-toggle {
