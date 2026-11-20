@@ -239,7 +239,6 @@ subscribeReviewPrev.addEventListener(
   handleSubscribeReviewPrev
 );
 
-
 async function handleSubscribeConfirm(event) {
   event.preventDefault();
 
@@ -257,6 +256,7 @@ async function handleSubscribeConfirm(event) {
   subscribeMessage.textContent = "게임 추천을 요청하고 있습니다.";
   subscribeMessage.classList.remove("is-success");
 
+  //임의의 로딩 시간을 주기
   try {
     subscribeMessage.classList.remove("is-error");
 
@@ -295,7 +295,7 @@ async function handleSubscribeConfirm(event) {
     completionActions.hidden = false;
 
     subscribeCompleteDialog.showModal();
-
+    
   } catch (error) {
     subscribeMessage.textContent =
       "추천 요청에 실패했습니다. 다시 시도해주세요.";
