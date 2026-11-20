@@ -36,6 +36,8 @@ const completionActions = document.querySelector("#completion-actions");
 const completionView = document.querySelector("#completion-view");
 const completionNew = document.querySelector("#completion-new");
 const savedRecommendations = localStorage.getItem("recommendations");
+const descriptionChoices = document.querySelectorAll('input[name="descriptionChoice"]');
+const gameDescriptionField = document.querySelector("#game-description-field");
 
 let recommendations = savedRecommendations
   ? JSON.parse(savedRecommendations)
@@ -87,7 +89,46 @@ function validateGameGenre() {
   return isValid;
 }
 
+function updateDescriptionChoice() {
+  const selectedChoice = Array.from(descriptionChoices).find(
+    function (choice) {
+      return choice.checked;
+    }
+  );
+
+  const wantsDescription = selectedChoice && selectedChoice.value === "yes";
+
+  gameDescriptionField.hidden = !wantsDescription;
+
+  gameDescriptionInput.disabled = !wantsDescription;
+  gameDescriptionInput.required = wantsDescription;
+
+  if (!wantsDescription) {
+    gameDescriptionInput.value = "";
+
+    gameDescriptionInput.classList.remove(
+      "is-valid",
+      "is-invalid"
+    );
+
+    gameDescriptionInput.removeAttribute("aria-invalid");
+    gameDescriptionError.textContent = "";
+  }
+
+  updateDescriptionCount();
+}
+
+descriptionChoices.forEach(function (choice) {
+  choice.addEventListener("change", updateDescriptionChoice);
+});
+
+updateDescriptionChoice();
+
 function validateGameDescription() {
+  if (gameDescriptionInput.disabled) {
+    return true;
+  }
+
   const gameDescription = gameDescriptionInput.value.trim();
   const isValid = gameDescription.length >= 10;
 
@@ -175,7 +216,7 @@ function handleSubscribeReview() {
 
   reviewGameName.textContent = gameNameInput.value.trim();
   reviewGameGenre.textContent = gameGenreInput.value.trim();
-  reviewGameDescription.textContent = gameDescriptionInput.value.trim();
+  reviewGameDescription.textContent = gameDescriptionInput.disabled ? "추가 설명 없음" : gameDescriptionInput.value.trim();
   reviewEmail.textContent = emailInput.value.trim();
 
   subscribeSteps[1].hidden = true;
@@ -198,42 +239,81 @@ subscribeReviewPrev.addEventListener(
   handleSubscribeReviewPrev
 );
 
-function handleSubscribeConfirm(event) {
+
+async function handleSubscribeConfirm(event) {
   event.preventDefault();
 
-  
   if (isSubcribed) {
     return;
   }
-  
-  const recommendation = {
-    id: Date.now(),
-    name: gameNameInput.value.trim(),
-    genre: gameGenreInput.value.trim(),
-    description: gameDescriptionInput.value.trim(),
-    email: emailInput.value.trim(),
-    status: "pending"
-  };
-  
-  recommendations.push(recommendation);
 
-  localStorage.setItem(
-    "recommendations",
-    JSON.stringify(recommendations)
-  );
+  if (subscribeConfirm.disabled) {
+    return;
+  }
 
-  renderRecommendations(recommendations);
+  subscribeConfirm.disabled = true;
+  subscribeConfirm.textContent = "추천 중...";
 
-  subscribeSteps[2].hidden = true;
+  subscribeMessage.textContent = "게임 추천을 요청하고 있습니다.";
+  subscribeMessage.classList.remove("is-success");
 
-  isSubcribed = true;
-  submitCount += 1;
+  try {
+    subscribeMessage.classList.remove("is-error");
 
-  subscribeMessage.textContent = "추천이 완료되었습니다.";
-  subscribeMessage.classList.add("is-success");
+    await new Promise(function (resolve) {
+      setTimeout(resolve, 1000);
+    });
 
-  completionActions.hidden = false;
+    const recommendation = {
+      id: Date.now(),
+      name: gameNameInput.value.trim(),
+      genre: gameGenreInput.value.trim(),
+      description: gameDescriptionInput.disabled
+        ? ""
+        : gameDescriptionInput.value.trim(),
+      email: emailInput.value.trim(),
+      status: "pending"
+    };
+
+    recommendations.push(recommendation);
+
+    localStorage.setItem(
+      "recommendations",
+      JSON.stringify(recommendations)
+    );
+
+    renderRecommendations(recommendations);
+
+    isSubcribed = true;
+    submitCount += 1;
+
+    subscribeSteps[2].hidden = true;
+
+    subscribeMessage.textContent = "추천이 완료되었습니다.";
+    subscribeMessage.classList.add("is-success");
+
+    completionActions.hidden = false;
+
+    subscribeCompleteDialog.showModal();
+
+  } catch (error) {
+    subscribeMessage.textContent =
+      "추천 요청에 실패했습니다. 다시 시도해주세요.";
+
+    subscribeMessage.classList.remove("is-success");
+
+    subscribeSteps[2].hidden = false;
+
+    subscribeMessage.classList.add("is-error");
+
+  } finally {
+    if (!isSubcribed) {
+      subscribeConfirm.disabled = false;
+      subscribeConfirm.textContent = "추천하기";
+    }
+  }
 }
+
 
 subscribeForm.addEventListener("submit", handleSubscribeConfirm);
 completionView.addEventListener("click", handleViewMyRecommendation);
@@ -268,6 +348,11 @@ closeMyRecommendation.addEventListener(
 function handleNewRecommendation() {
   subscribeCompleteDialog.close();
   subscribeForm.reset();
+  subscribeConfirm.disabled = false;
+  subscribeConfirm.textContent = "추천하기";
+
+  updateDescriptionChoice();
+
   subscribeSteps.forEach(function (step) {
     step.hidden = true;
   });
@@ -363,24 +448,48 @@ function createRecommendationCard(recommendation) {
   return card;
 }
 
-function handleDeleteRecommendation(id) {
-  const isDelete = confirm("이 추천 게임을 삭제하시겠습니까?");
 
-  if (!isDelete) {
-    return;
+const deleteRecommendationDialog = document.querySelector(
+  "#delete-recommendation-dialog"
+);
+
+const deleteCancel = document.querySelector("#delete-cancel");
+const deleteConfirm = document.querySelector("#delete-confirm");
+
+let selectedRecommendationId = null;
+
+function handleDeleteRecommendation(id) {
+  selectedRecommendationId = id;
+
+  deleteRecommendationDialog.showModal();
+}
+
+deleteCancel.addEventListener("click", function () {
+  deleteRecommendationDialog.returnValue = "cancel";
+  deleteRecommendationDialog.close();
+});
+
+deleteConfirm.addEventListener("click", function () {
+  deleteRecommendationDialog.returnValue = "confirm";
+  deleteRecommendationDialog.close();
+});
+
+deleteRecommendationDialog.addEventListener("close", function () {
+  if (deleteRecommendationDialog.returnValue === "confirm") {
+    recommendations = recommendations.filter(function (recommendation) {
+      return recommendation.id !== selectedRecommendationId;
+    });
+
+    localStorage.setItem(
+      "recommendations",
+      JSON.stringify(recommendations)
+    );
+
+    renderRecommendations(recommendations);
   }
 
-  recommendations = recommendations.filter(function (recommendation) {
-    return recommendation.id !== id;
-  });
-
-  localStorage.setItem(
-    "recommendations",
-    JSON.stringify(recommendations)
-  );
-
-  renderRecommendations(recommendations);
-}
+  selectedRecommendationId = null;
+});
 
 function renderRecommendations(list) {
   recommendationList.innerHTML = "";
@@ -838,7 +947,6 @@ sections.forEach(function (section) {
 const menuToggle = document.querySelector("#menu-toggle");
 const mainNav = document.querySelector("#main-nav");
 
-// 메뉴 열기 및 닫기
 menuToggle.addEventListener("click", function () {
   const isOpen = mainNav.classList.toggle("is-open");
 
@@ -849,12 +957,38 @@ menuToggle.addEventListener("click", function () {
   );
 });
 
-// 메뉴를 선택하면 메뉴 닫기
 navLinks.forEach(function (link) {
   link.addEventListener("click", function () {
     mainNav.classList.remove("is-open");
 
     menuToggle.setAttribute("aria-expanded", "false");
     menuToggle.setAttribute("aria-label", "메뉴 열기");
+  });
+});
+
+const accordionQuestions = document.querySelectorAll(".accordion-question");
+
+const accordionAnswers = document.querySelectorAll(".accordion-answer");
+
+accordionQuestions.forEach(function(question) {
+  question.addEventListener("click", function() {
+
+    const accordionAnswer = question.nextElementSibling;
+
+    const isOpen = accordionAnswer.classList.contains("is-open");
+
+    accordionAnswers.forEach(function(answer) {
+      answer.classList.remove("is-open");
+    });
+
+    accordionQuestions.forEach(function(button) {
+      button.setAttribute("aria-expanded", "false");
+    });
+
+    if (!isOpen) {
+      accordionAnswer.classList.add("is-open");
+      question.setAttribute("aria-expanded", "true");
+    }
+
   });
 });

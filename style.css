@@ -1067,6 +1067,191 @@ body.thumbs #thumbsUp {
   outline-offset: 3px;
   box-shadow: 0 0 0 3px rgba(53, 88, 245, 0.12);
 }
+
+.faq-section {
+  max-width: 900px;
+  margin: 60px auto;
+  padding: 30px;
+}
+
+.accordion {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.accordion-item {
+  margin-bottom: 16px;
+  border: 1px solid #d8ccf5;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.accordion-question {
+  width: 100%;
+  padding: 20px;
+  border: none;
+  background-color: #f4f3ff;
+  color: #45317a;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: left;
+  cursor: pointer;
+}
+
+.accordion-question:hover {
+  background-color: #e9e3ff;
+}
+
+.accordion-question:focus-visible {
+  outline: 3px solid #3558f5;
+  outline-offset: -3px;
+}
+
+.accordion-answer {
+  display: none;
+  padding: 20px;
+  background-color: #fff;
+  color: #333;
+  line-height: 1.6;
+}
+
+.accordion-answer.is-open {
+  display: block;
+}
+
+
+/* 추천 게임 삭제 확인 모달 */
+#delete-recommendation-dialog {
+  width: min(400px, calc(100% - 32px));
+  padding: 30px;
+  border: 2px solid #6c5fff;
+  border-radius: 20px;
+  background-color: #f4f3ff;
+  color: #45317a;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+#delete-recommendation-dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#delete-recommendation-dialog h2 {
+  margin-top: 0;
+}
+
+#delete-recommendation-dialog .dialog-action {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+#delete-recommendation-dialog button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+}
+
+#delete-cancel {
+  background-color: #e5ddff;
+  color: #45317a;
+}
+
+#delete-confirm {
+  background-color: #9656fd;
+  color: white;
+}
+
+#delete-recommendation-dialog button:focus-visible {
+  outline: 3px solid #3558f5;
+  outline-offset: 4px;
+}
+
+.description-choice {
+  margin: 20px 0;
+  padding: 18px;
+  border: 1px solid #c9baff;
+  border-radius: 14px;
+  background-color: #f4f3ff;
+}
+
+.description-choice legend {
+  padding: 0 8px;
+  color: #45317a;
+  font-weight: 700;
+}
+
+.description-choice label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0 0;
+  padding: 12px;
+  border: 1px solid #e0d9ff;
+  border-radius: 10px;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.description-choice label:hover {
+  background-color: #eee9ff;
+  border-color: #9656fd;
+}
+
+.description-choice input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: #9656fd;
+  cursor: pointer;
+}
+
+#subscribe-confirm {
+  min-width: 120px;
+  transition: background-color 0.2s, opacity 0.2s;
+}
+
+#subscribe-confirm:disabled {
+  background-color: #b9a2e8;
+  color: #ffffff;
+  cursor: wait;
+  opacity: 0.85;
+  box-shadow: none;
+}
+
+#subscribeMessage {
+  margin-top: 20px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background-color: #f4f3ff;
+  color: #45317a;
+  font-weight: 600;
+  text-align: center;
+}
+
+#subscribeMessage.is-success {
+  background-color: #e8f8ed;
+  color: #267443;
+  border: 1px solid #a8dfb9;
+}
+
+#subscribeMessage:not(.is-success) {
+  border: 1px solid #c9baff;
+}
+
+#subscribeMessage:not(.is-success):has(+ #subscribeguide:empty) {
+  color: #45317a;
+}
+
+#subscribeMessage.is-error {
+  background-color: #fff0f0;
+  color: #bd3535;
+  border: 1px solid #efb1b1;
+}
 /*웹페이지가 표시되는 가로 폭이 768px 이하일 때만 적용*/
 @media (max-width: 768px) {
 .menu-toggle {
@@ -1336,5 +1521,38 @@ button{
 
   .recommendation-delete {
     width: 100%;
+  }
+
+  .faq-section {
+    padding: 20px 16px;
+    margin: 40px auto;
+  }
+
+  .accordion-question {
+    padding: 16px;
+    font-size: 16px;
+  }
+
+  .accordion-answer {
+    padding: 16px;
+    font-size: 15px;
+  }
+
+  .description-choice {
+    padding: 14px;
+  }
+
+  .description-choice label {
+    padding: 14px 10px;
+    font-size: 15px;
+  }
+
+  #subscribe-confirm {
+    width: 100%;
+  }
+
+  #subscribeMessage {
+    font-size: 14px;
+    padding: 12px;
   }
 }

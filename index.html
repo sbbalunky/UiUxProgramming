@@ -32,6 +32,7 @@
           <li><a href="#about" class="nav-link">서비스 소개</a></li>
           <li><a href="#features" class="nav-link">추천 게임</a></li>
           <li><a href="#subscribe" class="nav-link">게임 추천 신청하기</a></li>
+          <li><a href="#faq" class="nav-link">자주 묻는 질문</a></li>
         </ul>
       </nav>
     </div>
@@ -336,7 +337,6 @@
       </section>
     </section>
 
-
     <section id="subscribe" class="subscribe-card">
       <h2>게임 추천 신청하기</h2>
       <form id = "subscribe-form" novalidate>
@@ -354,11 +354,29 @@
         </div>
 
         <div class="subscribe-step" data-step="2" hidden>
+          
           <h3 tabindex="-1">게임 소개와 이메일을 입력해주세요.</h3>
-          <label for="game-description">게임 소개</label>
-          <textarea id="game-description" name="gameDescription" placeholder="게임에 대한 소개를 작성해주세요." rows="4" maxlength="500" aria-describedby="game-description-error description-count" required></textarea>
-          <p id="game-description-error" class="error-message" aria-live="polite"></p>
-          <p id="description-count">0 / 500자</p>
+
+          <fieldset class="description-choice">
+            <legend>게임에 대한 추가 설명을 작성하시겠어요?</legend>
+
+            <label>
+              <input type="radio" name="descriptionChoice" value="yes">
+              네, 작성할게요.
+            </label>
+
+            <label>
+              <input type="radio" name="descriptionChoice" value="no" checked>
+              아니요, 작성하지 않을게요.
+            </label>
+          </fieldset>
+
+          <div id="game-description-field" hidden>
+            <label for="game-description">게임 소개</label>
+            <textarea id="game-description" name="gameDescription" placeholder="게임에 대한 소개를 작성해주세요." rows="4" maxlength="500" aria-describedby="game-description-error description-count" disabled></textarea>
+            <p id="game-description-error" class="error-message" aria-live="polite"></p>
+            <p id="description-count">0 / 500자</p>
+          </div>
 
           <label for="email">이메일</label>
           <input type="email" id="email" name="email" placeholder="이메일을 입력해주세요." aria-describedby="email-error" required>
@@ -425,7 +443,7 @@
         게임 정보를 입력한 뒤 신청해주세요.
       </p>
 
-      <p id="subscribeMessage" aria-live="polite"></p>
+      <p id="subscribeguide" aria-live="polite"></p>
 
       <div id="completion-actions" class="completion-actions" hidden>
         <button id="completion-view" type="button">
@@ -466,6 +484,58 @@
         </p>
       </div>
     </section>
+
+    <section id="faq" class="faq-section">
+      <h2>자주 묻는 질문</h2>
+      <p>GAME PICK 이용 방법을 확인해 보세요.</p>
+
+      <div class="accordion">
+
+        <div class="accordion-item">
+          <button type="button" class="accordion-question" aria-expanded="false" aria-controls="faq-answer-1">
+            게임 추천은 어떻게 신청하나요?
+          </button>
+
+          <div class="accordion-answer" id="faq-answer-1" role="region" aria-labelledby="faq-question-1">
+            게임 이름과 장르, 설명, 이메일을 입력하면
+            추천 신청을 할 수 있습니다.
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button type="button" class="accordion-question" aria-expanded="false" aria-controls="faq-answer-2">
+            내가 신청한 게임은 어디서 확인하나요?
+          </button>
+
+          <div class="accordion-answer" id="faq-answer-2" role="region" aria-labelledby="faq-question-2">
+            내 추천 목록에서 신청한 게임을 확인할 수 있습니다.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <dialog
+      id="delete-recommendation-dialog"
+      aria-labelledby="delete-dialog-title"
+      aria-describedby="delete-dialog-description"
+    >
+      <h2 id="delete-dialog-title">추천 게임을 삭제할까요?</h2>
+
+      <p id="delete-dialog-description">
+        이 추천 게임을 목록에서 삭제하시겠어요?
+        삭제하면 되돌릴 수 없습니다.
+      </p>
+
+      <div class="dialog-action">
+        <button id="delete-cancel" type="button">
+          취소
+        </button>
+
+        <button id="delete-confirm" type="button">
+          삭제하기
+        </button>
+      </div>
+    </dialog>
   </main>
 
   <footer>
